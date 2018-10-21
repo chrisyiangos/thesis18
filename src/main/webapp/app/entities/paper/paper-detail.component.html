@@ -1,0 +1,37 @@
+
+<div *ngIf="paper">
+    <h2><span>Paper</span> {{paper.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span>Attendance Date</span></dt>
+        <dd>
+            <span>{{paper.attendanceDate | date:'mediumDate'}}</span>
+        </dd>
+        <dt><span>Event</span></dt>
+        <dd>
+            <div *ngIf="paper.rfbEventId">
+                <a [routerLink]="['/rfb-event', paper.rfbEventId]">{{paper.rfbEventId}}</a>
+            </div>
+        </dd>
+        <dt><span>User</span></dt>
+        <dd>
+            <div *ngIf="paper.rfbUserId">
+                <a [routerLink]="['/rfb-user', paper.rfbUserId]">{{paper.rfbUserId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'paper/'+ paper.id + '/edit'} }]"
+            replaceUrl="true"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span> Edit</span>
+    </button>
+</div>

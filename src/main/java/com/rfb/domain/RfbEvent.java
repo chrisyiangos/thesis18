@@ -39,6 +39,11 @@ public class RfbEvent implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<RfbEventAttendance> rfbEventAttendances = new HashSet<>();
 
+    @OneToMany(mappedBy = "rfbEvent")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Paper> papers = new HashSet<>();
+
     // jhipster-needle-entity-add-field - Jhipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -111,6 +116,35 @@ public class RfbEvent implements Serializable {
     public void setRfbEventAttendances(Set<RfbEventAttendance> rfbEventAttendances) {
         this.rfbEventAttendances = rfbEventAttendances;
     }
+
+    //Paper
+
+    public Set<Paper> getPapers() {
+        return papers;
+    }
+
+    public RfbEvent papers(Set<Paper> papers) {
+        this.papers = papers;
+        return this;
+    }
+
+    public RfbEvent addPaper(Paper paper) {
+        this.papers.add(paper);
+        paper.setRfbEvent(this);
+        return this;
+    }
+
+    public RfbEvent removePaper(Paper paper) {
+        this.papers.remove(paper);
+        paper.setRfbEvent(null);
+        return this;
+    }
+
+    public void setPapers(Set<Paper> papers) {
+        this.papers = papers;
+    }
+
+    //
     // jhipster-needle-entity-add-getters-setters - Jhipster will add getters and setters here, do not remove
 
     @Override

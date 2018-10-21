@@ -1,9 +1,6 @@
 package com.rfb.bootstrap;
 
-import com.rfb.domain.RfbEvent;
-import com.rfb.domain.RfbEventAttendance;
-import com.rfb.domain.RfbLocation;
-import com.rfb.domain.User;
+import com.rfb.domain.*;
 import com.rfb.repository.*;
 import com.rfb.security.AuthoritiesConstants;
 import org.springframework.boot.CommandLineRunner;
@@ -25,16 +22,18 @@ public class RfbBootstrap implements CommandLineRunner {
     private final RfbLocationRepository rfbLocationRepository;
     private final RfbEventRepository rfbEventRepository;
     private final RfbEventAttendanceRepository rfbEventAttendanceRepository;
+    private final PaperRepository paperRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
 
     public RfbBootstrap(RfbLocationRepository rfbLocationRepository, RfbEventRepository rfbEventRepository,
-                        RfbEventAttendanceRepository rfbEventAttendanceRepository, UserRepository userRepository,
+                        RfbEventAttendanceRepository rfbEventAttendanceRepository, PaperRepository paperRepository, UserRepository userRepository,
                         PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
         this.rfbLocationRepository = rfbLocationRepository;
         this.rfbEventRepository = rfbEventRepository;
         this.rfbEventAttendanceRepository = rfbEventAttendanceRepository;
+        this.paperRepository = paperRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
@@ -61,6 +60,8 @@ public class RfbBootstrap implements CommandLineRunner {
         rfbUser.addAuthority(authorityRepository.findOne("ROLE_RUNNER"));
         rfbUser.addAuthority(authorityRepository.findOne("ROLE_ORGANIZER"));
         userRepository.save(rfbUser);
+
+
 
         //load data
         RfbLocation aleAndWitch = getRfbLocation("St Pete - Ale and the Witch", DayOfWeek.MONDAY.getValue());
@@ -94,6 +95,16 @@ public class RfbBootstrap implements CommandLineRunner {
         RfbLocation macDintons = getRfbLocation("Tampa - Mac Dintons", DayOfWeek.TUESDAY.getValue());
 
         RfbLocation satRun = getRfbLocation("Saturday Run for testing", DayOfWeek.SATURDAY.getValue());
+
+        Paper paper = new Paper();
+        paper.setId(1L);
+        //paper.setAttendanceDate(getRfbEventAttendance(r););
+        paper.setRfbEvent(stPeteBrewEvent);
+        paper.setUser(rfbUser);
+        paper.setPaperName("Test Paper");
+        paperRepository.save(paper);
+
+        getPaper(rfbUser, stPeteBrewEvent);
     }
 
 
@@ -106,6 +117,18 @@ public class RfbBootstrap implements CommandLineRunner {
         System.out.println(rfbAttendance.toString());
 
         rfbEventAttendanceRepository.save(rfbAttendance);
+        rfbEventRepository.save(rfbEvent);
+    }
+
+    private void getPaper(User rfbUser, RfbEvent rfbEvent) {
+        Paper paper = new Paper();
+        paper.setRfbEvent(rfbEvent);
+        paper.setUser(rfbUser);
+        paper.setAttendanceDate(LocalDate.now());
+
+        System.out.println(paper.toString());
+
+        paperRepository.save(paper);
         rfbEventRepository.save(rfbEvent);
     }
 

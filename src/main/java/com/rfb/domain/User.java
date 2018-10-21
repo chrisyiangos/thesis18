@@ -107,6 +107,11 @@ public class User extends AbstractAuditingEntity implements Serializable {
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<RfbEventAttendance> rfbEventAttendances = new HashSet<>();
 
+    @OneToMany(mappedBy = "user")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Paper> papers = new HashSet<>();
+
     public Long getId() {
         return id;
     }
@@ -237,6 +242,14 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     public void setRfbEventAttendances(Set<RfbEventAttendance> rfbEventAttendances) {
         this.rfbEventAttendances = rfbEventAttendances;
+    }
+
+    public Set<Paper> getPapers() {
+        return papers;
+    }
+
+    public void setPapers(Set<Paper> papers) {
+        this.papers = papers;
     }
 
     @Override

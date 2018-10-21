@@ -3,6 +3,8 @@ import {CUSTOM_ELEMENTS_SCHEMA, NgModule} from '@angular/core';
 import {RfbloyaltyRfbLocationModule} from './rfb-location/rfb-location.module';
 import {RfbloyaltyRfbEventModule} from './rfb-event/rfb-event.module';
 import {RfbloyaltyRfbEventAttendanceModule} from './rfb-event-attendance/rfb-event-attendance.module';
+import {RfbloyaltyPaperModule} from './paper/paper.module';
+
 
 /* jhipster-needle-add-entity-module-import - JHipster will add entity modules imports here */
 
@@ -10,7 +12,8 @@ import {RfbloyaltyRfbEventAttendanceModule} from './rfb-event-attendance/rfb-eve
     imports: [
         RfbloyaltyRfbLocationModule,
         RfbloyaltyRfbEventModule,
-        RfbloyaltyRfbEventAttendanceModule
+        RfbloyaltyRfbEventAttendanceModule,
+        RfbloyaltyPaperModule
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
