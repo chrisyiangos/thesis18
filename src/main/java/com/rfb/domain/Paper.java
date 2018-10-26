@@ -1,20 +1,23 @@
 package com.rfb.domain;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "paper")
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
 public class Paper implements Serializable {
 
-    private static final long seriaVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -31,6 +34,11 @@ public class Paper implements Serializable {
 
     @ManyToOne
     private User user;
+
+    @OneToMany(mappedBy = "paper")
+    @JsonIgnore
+    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
+    private Set<Posts> posts1 = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -76,6 +84,32 @@ public class Paper implements Serializable {
 
     public void setUser(User rfbUser) {
         this.user = rfbUser;
+    }
+
+
+    public Set<Posts> getPosts1() {
+        return posts1;
+    }
+
+    public Paper posts1(Set<Posts> posts1) {
+        this.posts1 = posts1;
+        return this;
+    }
+
+    public Paper addPosts(Posts posts) {
+        this.posts1.add(posts);
+        posts.setPaper(this);
+        return this;
+    }
+
+    public Paper removePosts(Posts posts) {
+        this.posts1.remove(posts);
+        posts.setPaper(null);
+        return this;
+    }
+
+    public void setPosts(Set<Posts> posts1) {
+        this.posts1 = posts1;
     }
 
     @Override

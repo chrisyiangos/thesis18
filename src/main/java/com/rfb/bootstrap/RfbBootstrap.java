@@ -23,17 +23,19 @@ public class RfbBootstrap implements CommandLineRunner {
     private final RfbEventRepository rfbEventRepository;
     private final RfbEventAttendanceRepository rfbEventAttendanceRepository;
     private final PaperRepository paperRepository;
+    private final PostsRepository postsRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final AuthorityRepository authorityRepository;
 
     public RfbBootstrap(RfbLocationRepository rfbLocationRepository, RfbEventRepository rfbEventRepository,
-                        RfbEventAttendanceRepository rfbEventAttendanceRepository, PaperRepository paperRepository, UserRepository userRepository,
+                        RfbEventAttendanceRepository rfbEventAttendanceRepository, PaperRepository paperRepository, PostsRepository postsRepository, UserRepository userRepository,
                         PasswordEncoder passwordEncoder, AuthorityRepository authorityRepository) {
         this.rfbLocationRepository = rfbLocationRepository;
         this.rfbEventRepository = rfbEventRepository;
         this.rfbEventAttendanceRepository = rfbEventAttendanceRepository;
         this.paperRepository = paperRepository;
+        this.postsRepository = postsRepository;
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.authorityRepository = authorityRepository;
@@ -105,6 +107,15 @@ public class RfbBootstrap implements CommandLineRunner {
         paperRepository.save(paper);
 
         getPaper(rfbUser, stPeteBrewEvent);
+
+        Posts posts = new Posts();
+        posts.setId(1L);
+        posts.setTitle("First Post");
+        posts.setBody("BODY");
+        posts.setPaper(paper);
+        postsRepository.save(posts);
+
+        getPosts(paper);
     }
 
 
@@ -130,6 +141,18 @@ public class RfbBootstrap implements CommandLineRunner {
 
         paperRepository.save(paper);
         rfbEventRepository.save(rfbEvent);
+    }
+
+    private void getPosts(Paper paper) {
+        Posts posts= new Posts();
+        posts.setPaper(paper);
+        posts.setTitle("First Title");
+        posts.setBody("Body");
+
+        System.out.println(posts.toString());
+
+        postsRepository.save(posts);
+        paperRepository.save(paper);
     }
 
     private RfbEvent getRfbEvent(RfbLocation rfbLocation) {

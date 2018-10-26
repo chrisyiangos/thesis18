@@ -61,6 +61,11 @@ public class CacheConfiguration {
             cm.createCache(com.rfb.domain.User.class.getName() + ".papers", jcacheConfiguration);
             cm.createCache(com.rfb.domain.RfbEvent.class.getName() + ".papers", jcacheConfiguration);
 
+            cm.createCache(com.rfb.domain.Paper.class.getName() + ".posts", jcacheConfiguration);
+            cm.createCache(com.rfb.domain.Paper.class.getName() + ".posts1", jcacheConfiguration);
+
+            cm.createCache(com.rfb.domain.Posts.class.getName(), jcacheConfiguration);
+            cm.createCache(com.rfb.domain.Posts.class.getName() + ".paper", jcacheConfiguration);
 
 
             // jhipster-needle-ehcache-add-entry

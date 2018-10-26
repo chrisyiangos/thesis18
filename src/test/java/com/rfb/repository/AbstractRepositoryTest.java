@@ -25,4 +25,10 @@ abstract class AbstractRepositoryTest {
     @Autowired
     AuthorityRepository authorityRepository;
 
+    @Autowired
+    PaperRepository paperRepository;
+
+    @Autowired
+    PostsRepository postsRepository;
+
 }
